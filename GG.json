@@ -1,0 +1,17 @@
+{
+    "id": "Gooodsoups_Garbage",
+    "name": "Gooodsoups' Garbage",
+    "author": ["Gooodsoups"],
+    "description": "Adds random jokers and jinkies to make your balatro experience horrendous!",
+    "prefix": "GG",
+    "main_file": "main.lua",
+    "badge_colour": "1EBCF0",
+
+    "dependencies": [
+        "Talisman (>=2.5)"
+    ],
+
+    "conflicts": [
+        "Saturn"
+    ]
+}
