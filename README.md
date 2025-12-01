@@ -7,4 +7,4 @@ This mod currently has:
 - 4 Editions
 - 4 Decks
 - 2 Spectrals
-- 2 New Vouchers (Since I overriden two vouchers so the UI doesn't look bad in game)
+- 2 New Vouchers (May show 4 since I overriden two vouchers so the UI doesn't look bad in game)
