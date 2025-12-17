@@ -2,9 +2,10 @@ A mod full of random jokers and other stuff that either makes the game fun or bo
 
 This mod currently has:
 
-- 28 Jokers
+- 29 Jokers
 - 1 Enhancement
-- 4 Editions
+- 4 Editions (gotta fix rusty at some point)
 - 4 Decks
 - 2 Spectrals
 - 2 New Vouchers (May show 4 since I overriden two vouchers so the UI doesn't look bad in game)
+- Maybe a few stakes (the stickers still don't want to work lmao)
