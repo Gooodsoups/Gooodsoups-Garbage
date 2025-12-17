@@ -1,47 +1,104 @@
 return {
     descriptions = {
+        Back = {
+            
+        },
+        Blind={
+            
+        },
+        Edition = {
+            e_GG_reflective = {
+                name = "Reflective",
+                text = {
+                    "Copy the scoring effect of",
+                    "the edition to the",
+                    "left of this card"
+                }
+            },
+
+            e_GG_bronze = {
+                name = "Bronze",
+                text = {
+                    "{X:chips,C:white}X#1#{} Chips when played",
+                    "but not scored"
+                }
+            },
+
+            e_GG_taintedjoker = {
+                name = "Tainted",
+                text = {
+                    "Retrigger all cards {C:attention}1{} time",
+                    "{X:mult,C:white}X#1#{} Mult"
+                }
+            },
+
+            e_GG_taintedcard = {
+                name = "Tainted",
+                text = {
+                    "Retrigger this card {C:attention}1{} time",
+                    "{X:mult,C:white}X#1#{} Mult"
+                }
+            },
+
+            e_GG_rusty = {
+                name = "Rusty",
+                text = {
+                    "Give {X:mult,C:white}X#1#{} Mult",
+                    "lose {X:mult,C:white}X#2#{} Mult at the end of round",
+                    "but give {C:money}$#3#{}"
+                }
+            }
+        },
+        Enhanced = {
+            m_GG_amplifier = {
+                name="Amplifier Card",
+                text={
+                    "{V:1}+#1#{} Power"
+                },
+            }
+        },
         Joker = {
             j_GG_impulsejoker = {
-                name = "Impulse Joker",
+                name = "Impulsinis Džokeris",
                 text = {
-                    "{V:1}+#1#{} Power"
+                    "{V:1}+#1#{} Galios"
                 }
             },
 
             j_GG_alphabet = {
-                name = "Alphabet",
+                name = "Abėcėlė",
                 text = {
-                    "{C:mult}+#2#{} Mult for every {C:attention}unique character{} in",
-                    "the name of the {C:attention}Joker{} to the right",
-                    "{C:inactive}(Currently {}{C:mult}+#1#{} {C:inactive}Mult){}"
+                    "{C:mult}+#2#{} Mult kiekvienam {C:attention}unikaliam simboliui{}",
+                    "dešininė {C:attention}Džokerių{} vardė",
+                    "{C:inactive}(Šiuo metu {}{C:mult}+#1#{} {C:inactive}Mult){}"
                 }
             },
 
             j_GG_hotstreak = {
-                name = "Hot Streak",
+                name = "Sėkminga serija",
                 text = {
-                    "Gain {X:mult,C:white}X#4#{} Mult for every {C:attention}3{}",
-                    "consecutive hands played",
+                    "Gauk {X:mult,C:white}X#4#{} Mult už kiekvieną {C:attention}3{}",
+                    "iš eilės sužaistą ranką",
                     "{C:inactive}(#1#: #2#/3, {}{X:mult,C:white}X#3#{}{C:inactive}){}"
                 }
             },
 
             j_GG_collector = {
-                name = "Collector",
+                name = "Kolekcionierius",
                 text = {
-                    "{C:mult}+#1#{} Mult for every {C:attention}unique{} rank",
-                    "scored when played"
+                    "{C:mult}+#1#{} Mult už kiekvieną {C:attention}unikalų{} reitingą",
+                    "įskaitytas žaidžiant"
                 }
             },
 
             j_GG_windvane = {
-                name = "Wind Vane",
+                name = "Vėjo Rodyklė",
                 text = {
-                    "Pick two {C:attention}random{} suits, one suit",
-                    "increases Mult by {C:mult}+#4#{}, the",
-                    "other decreases Mult by {C:mult}-#5#{}",
+                    "Pasirinkite du {C:attention}atsitiktinius{} kostiumus",
+                    "vieną kostiumą padidina Mult iš {C:mult}+#4#{}",
+                    "o kitas sumažina Mult iš {C:mult}-#5#{}",
                     "{C:inactive}({}{C:mult}+1{}{C:inactive}: #1#, {}{C:mult}-2{}{C:inactive}: #2#){}",
-                    "{C:inactive}(Currently {}{C:mult}+#3#{} {C:inactive}Mult){}"
+                    "{C:inactive}(Šiuo metu {}{C:mult}+#3#{} {C:inactive}Mult){}"
                 }
             },
 
@@ -247,31 +304,36 @@ return {
                 }
             },
 
-            j_GG_stopwatch = {
-                name = "Stopwatch",
-                text = {
-                    "Upon entering a {C:attention}Blind",
-                    "gain {C:chips}hands{} and {C:mult}discards{} equivalent",
-                    "to the amount of {C:chips}hands{} and",
-                    "{C:mult}discards{} left last round",
-                    "{C:inactive}(Currently: {C:chips}+#1#{}{C:inactive}, {C:mult}+#2#{C:inactive})"
-                }
-            },
-
             j_GG_brimstone = {
                 name = "Brimstone",
                 text = {
                     "Give {C:mult}+1{}-{C:mult}#1#{} Mult {C:attention}10{} times",
                     "give {X:mult,C:white}X#2#{} at the end"
                 }
-            },
-
-            j_GG_corrupted = {
-                name = "#1#",
-                text = {}
             }
         },
+        Other = {
+            GGplatinum_sticker = {
+                name = "Platinum Sticker",
+                text = {
+                    "Used this Joker",
+                    "to win on {C:attention}Platinum{}",
+                    "{C:attention}Stake{} difficulty",
+                }
+            },
 
+            GGdiamond_sticker = {
+                name="Diamond Sticker",
+                text = {
+                    "Used this Joker",
+                    "to win on {C:attention}Diamond{}",
+                    "{C:attention}Stake{} difficulty",
+                }
+            }
+        },
+        Planet = {
+            
+        },
         Spectral = {
             co_GG_omnipotence = {
                 name = "Omnipotence",
@@ -289,7 +351,28 @@ return {
                 }
             }
         },
+        Stake = {
+            stake_GGplatinum = {
+                name = "Platinum Stake",
+                text = {
+                    "Start with {C:red}-1{} hand size"
+                }
+            },
 
+            stake_GGdiamond = {
+                name = "Diamond Stake",
+                text = {
+                    "Required score scales",
+                    "faster for each {C:attention}Ante{}",
+                }
+            }
+        },
+        Tag = {
+
+        },
+        Tarot = {
+            
+        },
         Voucher = {
             v_GG_luckyday = {
                 name = "Lucky Day",
@@ -326,77 +409,6 @@ return {
                 }
             }
         },
-
-        Enhanced = {
-            m_GG_amplifier = {
-                name="Amplifier Card",
-                text={
-                    "{V:1}+#1#{} Power"
-                },
-            }
-        },
-
-        Edition = {
-            e_GG_reflective = {
-                name = "Reflective",
-                text = {
-                    "Copy the scoring effect of",
-                    "the edition to the",
-                    "left of this card"
-                }
-            },
-
-            e_GG_bronze = {
-                name = "Bronze",
-                text = {
-                    "{X:chips,C:white}X#1#{} Chips when played",
-                    "but not scored"
-                }
-            },
-
-            e_GG_taintedjoker = {
-                name = "Tainted",
-                text = {
-                    "Retrigger all cards {C:attention}1{} time",
-                    "{X:mult,C:white}X#1#{} Mult"
-                }
-            },
-
-            e_GG_taintedcard = {
-                name = "Tainted",
-                text = {
-                    "Retrigger this card {C:attention}1{} time",
-                    "{X:mult,C:white}X#1#{} Mult"
-                }
-            },
-
-            e_GG_rusty = {
-                name = "Rusty",
-                text = {
-                    "Give {X:mult,C:white}X#1#{} Mult",
-                    "lose {X:mult,C:white}X#2#{} Mult at the end of round",
-                    "but give {C:money}$#3#{}"
-                }
-            }
-        },
-
-        Stake = {
-            stake_GG_platinum = {
-                name = "Platinum Stake",
-                text = {
-                    "Start with {C:red}-1{} hand size"
-                },
-            },
-
-            stake_GG_diamond = {
-                name = "Diamond Stake",
-                text = {
-                    "Required score scales",
-                    "faster for each {C:attention}Ante{}",
-                }
-            }
-        },
-
         GG_sigils = {
             co_GG_sigilhope = {
                 name = "Sigil of Hope",
@@ -424,47 +436,8 @@ return {
                 }
             }
         },
-
-        Other = {
-            GG_platinum = {
-                name = "Platinum Sticker",
-                text = {
-                    "Used this Joker",
-                    "to win on {C:attention}Platinum{}",
-                    "{C:attention}Stake{} difficulty",
-                }
-            },
-
-            GG_diamond = {
-                name = "Diamond Sticker",
-                text = {
-                    "Used this Joker",
-                    "to win on {C:attention}Diamond{}",
-                    "{C:attention}Stake{} difficulty",
-                }
-            },
-
-            GG_rotten = {
-                name = "Rotten",
-                text = {
-                    "{C:green}1 in 4{} chance to",
-                    "destroy a random adjacent",
-                    "card at the end of round"
-                }
-            }
-        }
     },
-
     misc = {
-        labels = {
-            GG_reflective = "Reflective",
-            GG_bronze = "Bronze",
-            GG_tainted = "Tainted",
-            GG_rusty = "Rusty",
-            GG_rotten = "Rotten",
-            GG_weak = "Weak"
-        },
-
         dictionary = {
             d_downgrade = "Downgrade...",
             d_swapped = "Swapped!",
@@ -485,8 +458,6 @@ return {
             d_steel = "Steel",
             d_freeze = "Undone :(",
 
-            -- @.chemicalized, @frostbitesmile, @mamamica01, @y_s_f19, @agustosbocegi
-
             c_gn = "gooodsoups",
             c_chemn = ".chemicalized",
             c_frostn = "frostbitesmile",
@@ -501,11 +472,20 @@ return {
             c_ysfd = "rolled way too many wheels",
             c_agud = "walter my beloved",
 
-            sc_eremeln = "eremel",
-            sc_eremeld = "developed the SMODS framework",
+            sc_eremeln = "eremel & other contributors",
+            sc_eremeld = "developed this excellent SMODS framework",
 
             sc_communityn = "#modding-dev",
             sc_communityd = "thanks a lot you all"
+        },
+
+        labels = {
+            GG_reflective = "Reflective",
+            GG_bronze = "Bronze",
+            GG_tainted = "Tainted",
+            GG_rusty = "Rusty",
+            GG_rotten = "Rotten",
+            GG_weak = "Weak"
         }
     }
 }

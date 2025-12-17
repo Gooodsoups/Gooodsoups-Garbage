@@ -42,6 +42,9 @@
         offset = { x = 0, y = -2.7 },
         major = G.play,
     }) 
+
+
+    (context.post_trigger and not context.other_context.fixed_probability and not context.other_context.mod_probability) or context.forcetrigger
 ]]
 
 --[[
@@ -200,3 +203,5 @@
         if self.buttons then self.buttons:remove(); self.buttons = nil end          
     end
 ]]
+
+--Home 17 song is cool

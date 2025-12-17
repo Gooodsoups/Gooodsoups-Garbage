@@ -1,3 +1,6 @@
+local CalcLib = assert(SMODS.load_file("libs/calc_lib.lua"))()
+local DebugLib = assert(SMODS.load_file("libs/debug_lib.lua"))()
+
 -- Lucky Day, Potent Gamble
 SMODS.Voucher {
     key = "GG_luckyday",
@@ -49,6 +52,69 @@ SMODS.Voucher {
     end
 }
 
+-- Runic Script, Arcane Pact
+SMODS.Voucher {
+    key = "GG_runicscript",
+    atlas = "atlasholders",
+    pos = {
+        x = 0,
+        y = 1
+    },
+
+    loc_vars = function(self, info_queue, card)
+        return {
+            key = "v_GG_runicscript",
+            vars = {
+                colours = {
+                    HEX("d745c3")
+                }
+            }
+        }
+    end,
+
+    cost = 10,
+
+    redeem = function(self, card)
+        G.GAME.gg_sigils_rate = 3
+    end
+}
+
+SMODS.Voucher {
+    key = "GG_arcanepact",
+    atlas = "atlasholders",
+    pos = {
+        x = 1,
+        y = 1
+    },
+
+    config = {
+        sigil_mul = 2
+    },
+
+    loc_vars = function(self, info_queue, card)
+        return {
+            key = "v_GG_arcanepact",
+            vars = {
+                colours = {
+                    HEX("d745c3")
+                },
+
+                card.ability.sigil_mul
+            }
+        }
+    end,
+
+    cost = 10,
+
+    requires = {
+        "v_GG_runicenscryption"
+    },
+
+    redeem = function(self, card)
+        G.GAME.gg_sigils_rate = G.GAME.gg_sigils_rate * card.ability.sigil_mul
+    end
+}
+
 -- Overrides
 SMODS.Voucher:take_ownership(
     "v_overstock_norm",
@@ -86,7 +152,7 @@ SMODS.Voucher:take_ownership(
         loc_txt = {
             name="Overstock Plus",
             text={
-                "{C:attention}+2{} card slots",
+                "{C:attention}+1{} card slot",
                 "available in shop",
             }
         },

@@ -1,3 +1,6 @@
+local CalcLib = assert(SMODS.load_file("libs/calc_lib.lua"))()
+local DebugLib = assert(SMODS.load_file("libs/debug_lib.lua"))()
+
 -- Commons
 
 -- Impulse Joker
@@ -301,8 +304,8 @@ SMODS.Joker {
         return {
             key = "j_GG_windvane",
             vars = {
-                card.ability.goodsuit,
-                card.ability.badsuit,
+                localize(card.ability.goodsuit),
+                localize(card.ability.badsuit),
                 card.ability.multi,
                 card.ability.multigain,
                 card.ability.multiloss
@@ -1193,7 +1196,7 @@ SMODS.Joker {
 
     config = {
         xmult = 1,
-        xmultgain = 0.05
+        xmultgain = 0.03
     },
 
     loc_vars = function(self, info_queue, card)
@@ -1372,15 +1375,8 @@ SMODS.Joker {
 
     calculate = function(self, card, context)
         if context.joker_main then
-            local chipsval = hand_chips:to_number()
-            local multval = mult:to_number()
-
-            local chipschange = -(chipsval - multval)
-            local multchange = -(multval - chipsval)
-
             return {
-                chips = chipschange,
-                mult = multchange,
+                swap = true,
                 remove_default_message = true,
                 message = localize("d_swapped")
             }
@@ -1492,9 +1488,60 @@ SMODS.Joker {
     end
 }
 
+-- Stopwatch
+SMODS.Joker {
+    key = "GG_stopwatch",
+    atlas = "atlasholders",
+    pos = {
+        x = 2,
+        y = 0
+    },
+
+    rarity = 3,
+    cost = 10,
+
+    config = {
+        handsinc = 0,
+        discardsinc = 0
+    },
+
+    loc_vars = function(self, info_queue, card)
+        return {
+            key = "j_GG_stopwatch",
+            vars = {
+                card.ability.handsinc,
+                card.ability.discardsinc
+            }
+        }
+    end,
+
+    calculate = function(self, card, context)
+        if context.end_of_round and context.main_eval then
+            local hands_inc = G.GAME.current_round.hands_left
+            local discards_inc = G.GAME.current_round.discards_left
+            
+            if hands_inc > G.GAME.round_resets.hands / 2 then
+                hands_inc = G.GAME.round_resets.hands / 2
+            end
+
+            if discards_inc > G.GAME.round_resets.discards / 2 then
+                discards_inc = G.GAME.round_resets.discards / 2
+            end
+
+            card.ability.handsinc = hands_inc
+            card.ability.discardsinc = discards_inc
+        end
+
+        if context.setting_blind and not (context.blueprint_card or card).getting_sliced then
+            ease_hands_played(card.ability.handsinc)
+            ease_discard(card.ability.discardsinc)
+        end
+    end
+}
+
 -- Legendaries
 
---Brimstone
+-- Brimstone
 SMODS.Joker {
     key = "GG_brimstone",
     atlas = "atlasjonklers",
@@ -1530,40 +1577,249 @@ SMODS.Joker {
 
     calculate = function(self, card, context)
         if context.joker_main then
-            return {
-                -- Forced to do this stupid technique
-                mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                extra = {
-                    mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                    extra = {
-                        mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                        extra = {
-                            mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                            extra = {
-                                mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                                extra = {
-                                    mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                                    extra = {
-                                        mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                                        extra = {
-                                            mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                                            extra = {
-                                                mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                                                extra = {
-                                                    mult = math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1,
-                                                    extra = {
-                                                        xmult = card.ability.xmult
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+            local calcTable = {
+                {
+                    mult = {
+                        eval = true,
+                        vars = {},
+                        func = function(vars)
+                            return {
+                                math.floor(pseudorandom("GG_brimstone") * card.ability.maxmult) + 1
                             }
-                        }
+                        end
+                    },
+                    repeats = 10
+                },
+
+                {
+                    xmult = card.ability.xmult
+                }
+            }
+
+            local table = CalcLib.combine_calculate(calcTable)
+            
+            return table
+        end
+    end
+}
+
+-- Miscellaneous
+
+local function text_randomise(length)
+    local chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    local result = ""
+
+    for i = 1, length do
+        local char = math.random(1, #chars)
+        result = result .. chars:sub(char, char)
+    end
+
+    return result
+end
+
+-- Corrupted
+SMODS.Joker {
+    key = "GG_corrupted",
+    atlas = "atlasholders",
+    pos = {
+        x = 0,
+        y = 0
+    },
+
+    rarity = "GG_miscellaneous",
+    cost = 1,
+
+    config = {
+        name = text_randomise(14),
+        active_context = "",
+        active_calculation = "",
+        passive_contexts = {},
+        passive_calculations = {}
+    },
+
+    loc_vars = function(self, info_queue, card)
+        return {
+            key = "j_GG_corrupted",
+            vars = {
+                card.ability.name
+            }
+        }
+    end,
+
+    no_collection = true,
+
+    calculate = function(self, card, context)
+        if context.setting_blind and not (context.blueprint_card or card).getting_sliced and (card.ability.active_context == "" and card.ability.active_calculation == "") then
+            -- 1 active
+            -- 3 passive
+            
+            -- actives: joker_main or individual
+            -- passives: a lot more fun, hand played, discarded, booster opened, with many other passive effects
+
+            -- save my soul lol
+            
+            local actives = {
+                "joker_main",
+                "individual"
+            }
+
+            local passives = {
+                "before",
+                "after",
+                "end_of_round",
+                "setting_blind",
+                "pre_discard",
+                "open_booster",
+                "skipping_booster",
+                "buying_card",
+                "selling_card",
+                "first_hand_drawn",
+                "other_drawn",
+                "using_consumeable",
+                "skip_blind",
+                "playing_card_added",
+                "card_added",
+                "modify_ante",
+                "ante_change",
+                "discard"
+            }
+
+            -- Balatro cannot save functions (sad), so im saving references instead
+
+            local active_calc_ref = {
+                "chips",
+                "mult",
+                "power",
+                "xchips",
+                "xmult",
+                "xpower",
+                "dollars"
+            }
+
+            local passive_calc_ref = {
+                "dollars",
+                "leveling_up_last"
+            }
+
+            -- Now for the actual joker bit oh my god
+
+            local active_context = CalcLib.get_random_items(actives, 1, "GG_corrupted")
+            local active_calculation = CalcLib.get_random_items(active_calc_ref, 1, "GG_corrupted")
+
+            card.ability.active_context = active_context[1]
+            card.ability.active_calculation = active_calculation[1]
+        end
+
+        if context[card.ability.active_context] then
+            if context.individual and context.cardarea ~= G.play then return end
+
+            local active_calc = {
+                chips = {
+                    chips = {
+                        eval = true,
+                        vars = {},
+                        func = function(vars)
+                            return {
+                                math.floor(pseudorandom("GG_corrupted") * 20 + 0.999999) + 10 
+                            }
+                        end
+                    }
+                },
+
+                mult = {
+                    mult = {
+                        eval = true,
+                        vars = {},
+                        func = function(vars)
+                            return {
+                                math.floor(pseudorandom("GG_corrupted") * 10 + 0.999999) + 5 
+                            }
+                        end
+                    }
+                },
+
+                power = {
+                    power = {
+                        eval = true,
+                        vars = {},
+                        func = function(vars)
+                            return {
+                                math.floor(pseudorandom("GG_corrupted") + 0.999999) / 20
+                            }
+                        end
+                    }
+                },
+
+                xchips = {
+                    xchips = {
+                        eval = true,
+                        vars = {},
+                        func = function(vars)
+                            return {
+                                math.floor(pseudorandom("GG_corrupted") * 15 + 0.999999) / 10 + 1
+                            }
+                        end
+                    }
+                },
+
+                xmult = {
+                    xmult = {
+                        eval = true,
+                        vars = {},
+                        func = function(vars)
+                            return {
+                                math.floor(pseudorandom("GG_corrupted") * 15 + 0.999999) / 10 + 1
+                            }
+                        end
+                    }
+                },
+
+                xpower = {
+                    xpower = {
+                        eval = true,
+                        vars = {},
+                        func = function(vars)
+                            return {
+                                math.floor(pseudorandom("GG_corrupted") * 10 + 0.999999) / 10 + 1
+                            }
+                        end
+                    }
+                },
+
+                dollars = {
+                    dollars = {
+                        eval = true,
+                        vars = {},
+                        func = function(vars)
+                            return {
+                                math.floor(pseudorandom("GG_corrupted") * 4 + 0.999999) + 1
+                            }
+                        end
                     }
                 }
             }
+
+            local passive_calc = {
+                dollars = function()
+                    ease_dollars(math.floor(pseudorandom("GG_corrupted") * 4 + 0.999999) + 1)
+                end,
+
+                leveling_up_last = function()
+
+                end
+            }
+
+            local active_table = {}
+
+            active_table[#active_table + 1] = active_calc[card.ability.active_calculation]
+
+            active_table = CalcLib.combine_calculate(active_table)
+
+            return active_table
         end
+    end,
+
+    update = function(self, card, dt)
+        card.ability.name = text_randomise(14)
     end
 }
