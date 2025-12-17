@@ -1777,8 +1777,6 @@ SMODS.Joker {
 
             active_table = CalcLib.combine_calculate(active_table)
 
-            DebugLib.print_tree(active_table)
-
             return active_table
         end
     end,
