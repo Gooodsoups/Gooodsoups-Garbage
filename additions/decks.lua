@@ -239,7 +239,7 @@ SMODS.Back {
         xmult = 1.5,
         revivetimermax = 4,
         xmulttimermax = 2,
-        revivetimer = 4,
+        revivetimer = 0,
         xmulttimer = 2
     },
 
@@ -481,7 +481,7 @@ SMODS.Back {
 
     calculate = function(self, deck, context)
         if context.end_of_round and context.main_eval and context.beat_boss then
-            deck.effect.config.scoremultiplier = deck.effect.config.scoremultiplier + 0.25
+            deck.effect.config.scoremultiplier = deck.effect.config.scoremultiplier * 1.25
             
             G.GAME.starting_params.ante_scaling = math.floor(pseudorandom("GG_corrupteddeck")*20)/10 * deck.effect.config.scoremultiplier
             G.GAME.discount_percent = (pseudorandom("GG_corrupteddeck") + 0.25)

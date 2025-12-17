@@ -1689,11 +1689,13 @@ SMODS.Joker {
             local active_calc_ref = {
                 "chips",
                 "mult",
-                "power",
+                "power"
+            }
+
+            local active_mult_ref = {
                 "xchips",
                 "xmult",
-                "xpower",
-                "dollars"
+                "xpower"
             }
 
             local passive_calc_ref = {
@@ -1705,6 +1707,10 @@ SMODS.Joker {
 
             local active_context = CalcLib.get_random_items(actives, 1, "GG_corrupted")
             local active_calculation = CalcLib.get_random_items(active_calc_ref, 1, "GG_corrupted")
+
+            if pseudorandom("GG_corrupted") < 0.2 then
+                active_calculation = CalcLib.get_random_items(active_mult_ref, 1, "GG_corrupted")
+            end
 
             card.ability.active_context = active_context[1]
             card.ability.active_calculation = active_calculation[1]
@@ -1720,7 +1726,7 @@ SMODS.Joker {
                         vars = {},
                         func = function(vars)
                             return {
-                                math.floor(pseudorandom("GG_corrupted") * 20 + 0.999999) + 10 
+                                math.floor(pseudorandom("GG_corrupted") * 15 + 0.999999) + 5
                             }
                         end
                     }
@@ -1732,71 +1738,27 @@ SMODS.Joker {
                         vars = {},
                         func = function(vars)
                             return {
-                                math.floor(pseudorandom("GG_corrupted") * 10 + 0.999999) + 5 
+                                math.floor(pseudorandom("GG_corrupted") * 5 + 0.999999) + 1
                             }
                         end
                     }
                 },
 
                 power = {
-                    power = {
-                        eval = true,
-                        vars = {},
-                        func = function(vars)
-                            return {
-                                math.floor(pseudorandom("GG_corrupted") + 0.999999) / 20
-                            }
-                        end
-                    }
+                    power = math.floor(pseudorandom("GG_corrupted") + 0.999999) / 20
                 },
 
                 xchips = {
-                    xchips = {
-                        eval = true,
-                        vars = {},
-                        func = function(vars)
-                            return {
-                                math.floor(pseudorandom("GG_corrupted") * 15 + 0.999999) / 10 + 1
-                            }
-                        end
-                    }
+                    xchips = math.floor(pseudorandom("GG_corrupted") * 100) / 10 + 1
                 },
 
                 xmult = {
-                    xmult = {
-                        eval = true,
-                        vars = {},
-                        func = function(vars)
-                            return {
-                                math.floor(pseudorandom("GG_corrupted") * 15 + 0.999999) / 10 + 1
-                            }
-                        end
-                    }
+                    xmult = math.floor(pseudorandom("GG_corrupted") * 100) / 10 + 1
                 },
 
                 xpower = {
-                    xpower = {
-                        eval = true,
-                        vars = {},
-                        func = function(vars)
-                            return {
-                                math.floor(pseudorandom("GG_corrupted") * 10 + 0.999999) / 10 + 1
-                            }
-                        end
-                    }
+                    xpower = math.floor(pseudorandom("GG_corrupted") * 100) / 20 + 1
                 },
-
-                dollars = {
-                    dollars = {
-                        eval = true,
-                        vars = {},
-                        func = function(vars)
-                            return {
-                                math.floor(pseudorandom("GG_corrupted") * 4 + 0.999999) + 1
-                            }
-                        end
-                    }
-                }
             }
 
             local passive_calc = {
@@ -1814,6 +1776,8 @@ SMODS.Joker {
             active_table[#active_table + 1] = active_calc[card.ability.active_calculation]
 
             active_table = CalcLib.combine_calculate(active_table)
+
+            DebugLib.print_tree(active_table)
 
             return active_table
         end
